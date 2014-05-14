@@ -34,3 +34,14 @@ Example 3 (using predefined words dictionary) :
 Difficulty Levels Screen shot: 
 
 ![Alt text](/difficultylevels.jpg?raw=true "Difficulty Levels")
+
+Performance (intel Core i7 2630QM 2.0GHz / Single Thread):
+
+- Difficulty 0 : 1068/s
+- Difficulty 1 : 975/s
+- Difficulty 2 : 843/s
+- Difficulty 3 : 560/s
+- Difficulty 4 : 534/s
+- Difficulty 5 : 412/s
+
+
