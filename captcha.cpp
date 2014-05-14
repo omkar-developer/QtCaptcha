@@ -240,11 +240,14 @@ void Captcha::updateCaptcha()
 	{
 		
 		path.addText(m_vmod2 + m_padding, m_hmod2 - m_padding + fm.height(), font(), captchaText());
+
+		qreal sinrandomness = ((qreal) qrand() / RAND_MAX) * 5.0;
+
 		for (int i = 0; i < path.elementCount(); ++i)
 		{
 			const QPainterPath::Element& el = path.elementAt(i);
-			qreal y = el.y + sin(el.x / m_hmod1) * m_hmod2;
-			qreal x = el.x + sin(el.y / m_vmod1) * m_vmod2;
+			qreal y = el.y + sin(el.x / m_hmod1 + sinrandomness) * m_hmod2;
+			qreal x = el.x + sin(el.y / m_vmod1 + sinrandomness) * m_vmod2;
 			path.setElementPositionAt(i, x, y);
 		}
 				
