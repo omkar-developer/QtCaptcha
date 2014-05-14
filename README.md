@@ -30,3 +30,7 @@ Example 3 (using predefined words dictionary) :
 	cp.setTextGeneration(Captcha::TextGeneration_Dictionary);
 	cp.generateText();
 	painter.drawImage(30, 30, cp.captchaImage());
+
+Difficulty Levels Screen shot: 
+
+![Alt text](/difficultylevels.jpg?raw=true "Difficulty Levels")
