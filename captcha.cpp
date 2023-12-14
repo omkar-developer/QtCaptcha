@@ -18,6 +18,8 @@
 
 #include "captcha.h"
 
+#include <QRandomGenerator>
+
 Captcha::Captcha(QObject *parent) :
     QObject(parent)
 {
@@ -241,7 +243,7 @@ void Captcha::updateCaptcha()
 		
 		path.addText(m_vmod2 + m_padding, m_hmod2 - m_padding + fm.height(), font(), captchaText());
 
-		qreal sinrandomness = ((qreal) qrand() / RAND_MAX) * 5.0;
+		qreal sinrandomness = QRandomGenerator::global()->generateDouble() * 5.0;
 
 		for (int i = 0; i < path.elementCount(); ++i)
 		{
@@ -251,7 +253,7 @@ void Captcha::updateCaptcha()
 			path.setElementPositionAt(i, x, y);
 		}
 				
-		m_captchaImage = QImage(fm.width(m_captchaText) + m_vmod2 * 2 + m_padding * 2, fm.height() + m_hmod2 * 2 + m_padding * 2, QImage::Format_RGB32);
+		m_captchaImage = QImage(fm.horizontalAdvance(m_captchaText) + m_vmod2 * 2 + m_padding * 2, fm.height() + m_hmod2 * 2 + m_padding * 2, QImage::Format_RGB32);
 	}
 
 	m_captchaImage.fill(backColor());
@@ -267,10 +269,10 @@ void Captcha::updateCaptcha()
 		painter.setPen(QPen(Qt::black, m_lineWidth));
 		for (int i = 0; i < m_lineCount; i++)
 		{
-			int x1 = ((qreal) qrand() / RAND_MAX) * m_captchaImage.width();
-			int y1 = ((qreal) qrand() / RAND_MAX) * m_captchaImage.height();
-			int x2 = ((qreal) qrand() / RAND_MAX) * m_captchaImage.width();
-			int y2 = ((qreal) qrand() / RAND_MAX) * m_captchaImage.height();
+			int x1 = QRandomGenerator::global()->generateDouble() * m_captchaImage.width();
+			int y1 = QRandomGenerator::global()->generateDouble() * m_captchaImage.height();
+			int x2 = QRandomGenerator::global()->generateDouble() * m_captchaImage.width();
+			int y2 = QRandomGenerator::global()->generateDouble() * m_captchaImage.height();
 			painter.drawLine(x1, y1, x2, y2);
 		}
 		painter.setPen(Qt::NoPen);
@@ -280,10 +282,10 @@ void Captcha::updateCaptcha()
 	{
 		for (int i = 0; i < m_ellipseCount; i++)
 		{
-			int x1 = m_ellipseMaxRadius / 2.0 + ((qreal) qrand() / RAND_MAX) * (m_captchaImage.width() - m_ellipseMaxRadius);
-			int y1 = m_ellipseMaxRadius / 2.0 + ((qreal) qrand() / RAND_MAX) * (m_captchaImage.height() - m_ellipseMaxRadius);
-			int rad1 = m_ellipseMinRadius + ((qreal) qrand() / RAND_MAX) * (m_ellipseMaxRadius - m_ellipseMinRadius);
-			int rad2 = m_ellipseMinRadius + ((qreal) qrand() / RAND_MAX) * (m_ellipseMaxRadius - m_ellipseMinRadius);
+			int x1 = m_ellipseMaxRadius / 2.0 + QRandomGenerator::global()->generateDouble() * (m_captchaImage.width() - m_ellipseMaxRadius);
+			int y1 = m_ellipseMaxRadius / 2.0 + QRandomGenerator::global()->generateDouble() * (m_captchaImage.height() - m_ellipseMaxRadius);
+			int rad1 = m_ellipseMinRadius + QRandomGenerator::global()->generateDouble() * (m_ellipseMaxRadius - m_ellipseMinRadius);
+			int rad2 = m_ellipseMinRadius + QRandomGenerator::global()->generateDouble() * (m_ellipseMaxRadius - m_ellipseMinRadius);
 			painter.setBrush(backColor());
 			painter.setCompositionMode(QPainter::CompositionMode_Difference);
 			painter.drawEllipse(QPoint(x1, y1), rad1, rad2);			
@@ -294,10 +296,10 @@ void Captcha::updateCaptcha()
 	{
 		for (int i = 0; i < m_noiseCount; i++)
 		{
-			int x1 = ((qreal) qrand() / RAND_MAX) * m_captchaImage.width();
-			int y1 = ((qreal) qrand() / RAND_MAX) * m_captchaImage.height();
+			int x1 = QRandomGenerator::global()->generateDouble() * m_captchaImage.width();
+			int y1 = QRandomGenerator::global()->generateDouble() * m_captchaImage.height();
 
-			QColor col = QColor(((qreal) qrand() / RAND_MAX) * 255, ((qreal) qrand() / RAND_MAX) * 255, ((qreal) qrand() / RAND_MAX) * 255);
+			QColor col = QColor(QRandomGenerator::global()->generateDouble() * 255, QRandomGenerator::global()->generateDouble() * 255, QRandomGenerator::global()->generateDouble() * 255);
 
 			painter.setPen(QPen(col, m_noisePointSize));
 			painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -310,7 +312,7 @@ void Captcha::updateCaptcha()
 
 void Captcha::randomize()
 {
-    qsrand(QTime::currentTime().msec());
+    //qsrand(QTime::currentTime().msec());
 }
 
 void Captcha::setCaptchaText(QString arg)
@@ -441,18 +443,18 @@ void Captcha::generateText(int noOfChars, bool includeNumbers, bool includeSymbo
 
 	if (m_textGeneration == TextGeneration_Random)
 	{
-		QVector<unsigned char> chars;
+		QVector<char> chars;
 		for (int i = 0; i < noOfChars * 2; i++)
 		{
-			chars.push_back(65 + ((qreal) qrand() / RAND_MAX) * (90 - 65));
-			if (!allCapital) chars.push_back(97 + ((qreal) qrand() / RAND_MAX) * (122 - 97));
-			if (includeNumbers) chars.push_back(48 + ((qreal) qrand() / RAND_MAX) * (57 - 48));
-			if (includeSymbols) chars.push_back(33 + ((qreal) qrand() / RAND_MAX) * (47 - 33));
+			chars.push_back(65 + QRandomGenerator::global()->generateDouble() * (90 - 65));
+			if (!allCapital) chars.push_back(97 + QRandomGenerator::global()->generateDouble() * (122 - 97));
+			if (includeNumbers) chars.push_back(48 + QRandomGenerator::global()->generateDouble() * (57 - 48));
+			if (includeSymbols) chars.push_back(33 + QRandomGenerator::global()->generateDouble() * (47 - 33));
 		}
 
 		for (int i = 0; i < noOfChars; i++)
 		{
-			text += chars[(qrand() / (qreal) RAND_MAX) * (chars.size() - 1.0)];
+			text += chars[QRandomGenerator::global()->generateDouble() * (chars.size() - 1.0)];
 		}
 
 		m_captchaText = text;
@@ -464,7 +466,7 @@ void Captcha::generateText(int noOfChars, bool includeNumbers, bool includeSymbo
 			qWarning() << "In text generation : Dictionary size is too small";
 			return;
 		}
-		m_captchaText = m_dictionary[(qrand() / (qreal) RAND_MAX) * (m_dictionary.size() - 1.0)];
+		m_captchaText = m_dictionary[QRandomGenerator::global()->generateDouble() * (m_dictionary.size() - 1.0)];
 	}
 	else
 	{

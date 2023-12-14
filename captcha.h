@@ -97,6 +97,7 @@ public slots:
     void setFont(const QFont& arg);
     void setDeformationType(DeformType arg);
     void updateCaptcha();
+    //obsoleete
     void randomize();
 	void generateText(int noOfChars = 5, bool includeNumbers = false, bool includeSymbols = false, bool allCapital = true);
     void setCaptchaText(QString arg);    
